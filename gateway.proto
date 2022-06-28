@@ -1,0 +1,30 @@
+// Author: Are Oelsner
+
+syntax = "proto3";
+
+package gateway;
+
+// Interface exported by the server.
+service Gateway {
+    // RPC that returns state of requested electrode
+    // Takes in electrode number, returns electrode state
+    rpc getElectrodeState(ElectrodeNumber) returns (ElectrodeState) {}
+}
+
+// ElectrodeNumber serves as an ID for distinct electrodes in the device
+message ElectrodeNumber {
+    int32 number = 1;
+}
+
+// ElectrodeState represents the current power level of an electrode. Positive ints are valid. 
+message ElectrodeState {
+    int32 state = 1;
+}
+
+// Electrode represents an electrode with ID num and state state. 
+message Electrode {
+    ElectrodeNumber num = 1;
+    ElectrodeState state = 2;
+}
+
+
