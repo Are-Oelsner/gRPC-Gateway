@@ -1,5 +1,5 @@
 # Author: Are Oelsner
-# Python server 
+""" Python implementation of Gateway Server  """
 
 from concurrent import futures
 import sys
@@ -7,25 +7,63 @@ sys.path.append('C:\grpc')
 import grpc
 import gateway_pb2
 import gateway_pb2_grpc
-import device
 
-def get_electrode_state(electrode_db, electrodeNumber):
-    # Returns state of given electron or -1. 
-    print("In get_electrode_state")
-    print(electrodeNumber)
-    electrodeState = electrode_db(electrodeNumber.number) #.state?
-    print("Electrode " + electrodeNumber.number + " state: " + electrodeState.state)
-    return gateway_pb2.ElectrodeState(state=electrodeState)
-
-
-class GatewayServicer(gateway_pb2_grpc.GatewayServicer):
-    # Provides methods that implement functionality of route guide server. 
+class Device():
+    """ Stores electrodes and their states """
 
     def __init__(self):
-        self.db = device.getElectrode # Stores getElectrode function in class variable db
+        """ Constructor - Initializes electrodes """
+        self.electrode1 = 0
+        self.electrode2 = 1
+        self.electrode3 = 2
+        self.electrode4 = 3
+
+    def getElectrode(self, num):
+        """ Returns the state of the requested electrode 
+        
+        Args:
+            num(ElectrodeNumber): specifies which electrode's state is requested. Contains (int) number
+        Returns:
+            (int): state of requested electrode or -1 for invalid request
+        """
+        print("Getting electrode %i state..." % (num))
+        print("electrode 2 state: %i" % (self.electrode2))
+        print(self.electrode3)
+        print("printed electrode3")
+        match num:
+            case 1: return self.electrode1
+            case 2: return self.electrode2
+            case 3: return self.electrode3
+            case 4: return self.electrode4
+            case _: return -1
+
+def get_electrode_state(device, electrodeNumber):
+    """ Returns state of given electron or -1.  
+
+    Args:
+        electrode_db: function that takes in a number (1-4)
+        electrodeNumber : ElectrodeNumber message that contains an int number 
+
+    Returns:
+        ElectrodeState: message containing int value of the requested electrode state, or -1 if invalid input
+    """
+    electrodeState = device.getElectrode(electrodeNumber.number)
+    print(electrodeState)
+    return gateway_pb2.ElectrodeState(state=electrodeState)
+
+class GatewayServicer(gateway_pb2_grpc.GatewayServicer):
+    """ GatewayServiceer used by the server to implement a gRPC service. 
+        
+        Provides methods that implement functionality of gateway server.  
+    """
+
+    def __init__(self):
+        """ Constructor """
+        self.device = Device()
+        
 
     def getElectrodeState(self, request, context):
-        state = get_electrode_state(self.db, request)
+        state = get_electrode_state(self.device, request)
         return state
 
 def serve():

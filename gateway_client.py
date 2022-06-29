@@ -1,5 +1,5 @@
 # Author: Are Oelsner
-# Python implementation of the gRPC gateway client
+""" Python implementation of the gRPC gateway client """
 
 from __future__ import print_function
 
@@ -11,23 +11,40 @@ import gateway_pb2
 import gateway_pb2_grpc
 
 def guide_get_electrode_state(stub, electrodeNum):
-    electrodeState = stub.getElectrodeState(gateway_pb2.ElectrodeNumber(number=electrodeNum.number))
+    """ Client guide function that takes provided input (electrodeNum) and makes a request from the stub
+    ### Parameters
+    1. stub : 
+    2. electrodeNum : ElectrodeNumber message containing int number
+    
+    ### Returns
+    - Any : currently prints out the ElectrodeState returned from the stub and doesn't return anything
+    """
+    electrodeState = stub.getElectrodeState(gateway_pb2.ElectrodeNumber(number=1))
+    # electrodeState = stub.getElectrodeState(gateway_pb2.ElectrodeNumber(number=electrodeNum.number))
     # electrodeState = stub.getElectrodeState(electrodeNum)
-    print("end of guide_get_electrode_state!!")
-    #print("Electrode %i state: %i", electrodeNum.number, electrodeState.state)
+    print("Electrode %i state: %i" % (electrodeNum.number, electrodeState.state))
 
 def run():
     with grpc.insecure_channel('localhost:50051') as channel:
         stub = gateway_pb2_grpc.GatewayStub(channel)
-        print("Getting electron 1 state")
-        #guide_get_electrode_state(stub, gateway_pb2.ElectrodeNumber(number=1))
-        guide_get_electrode_state(stub, gateway_pb2.ElectrodeNumber(number=1))
-"""         print("Getting electron 2 state")
-        guide_get_electrode_state(stub, 2)
-        print("Getting electron 3 state")
-        guide_get_electrode_state(stub, 3)
-        print("Getting electron 4 state")
-        guide_get_electrode_state(stub, 4) """
+
+        user_input = ""
+        command = []
+        while user_input != "quit":
+            user_input = input("please enter command: ")
+            command = user_input.split(" ")
+            if(command[0] == "help"):
+                print("get <(int) electrode number>")
+                print("set <(int) electrode number> <(int) value>")
+            elif(command[0] == "get"):
+                if(len(command) > 1):
+                    print("Getting electrode %s state" % (command[1]))
+                    guide_get_electrode_state(stub, gateway_pb2.ElectrodeNumber(number=int(command[1])))
+            elif(command[0] == "set"):
+                if(len(command) > 2):
+                    print("Setting electrode %i state to %i" % (command[1], command[2]))
+            else:
+                print("invalid input: %s \n Please try again, or enter help for details" % (user_input))
 
 if __name__ == '__main__':
     run()

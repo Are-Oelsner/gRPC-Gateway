@@ -6,11 +6,20 @@ import gateway_pb2 as gateway__pb2
 
 
 class GatewayStub(object):
-    """Interface exported by the server.
+    """ Interface exported by the server.
+
+        Generated Stub class is used by the gRPC clients. 
     """
 
     def __init__(self, channel):
-        """Constructor.
+        """ Constructor.
+            Takes in channel object and initializes the stub. For each method in
+            the service, the initializer adds a corresponding attribute to the
+            stub object with the same name. 
+
+            Depending on the RPC type (unary or streaming), the value of that 
+            attribute will be callable objects of type UnaryUnaryMultiCallable, 
+            UnaryStreamMultiCallable, StreamUnaryMultiCallable, or StreamStreamMultiCallable
 
         Args:
             channel: A grpc.Channel.
@@ -20,10 +29,15 @@ class GatewayStub(object):
                 request_serializer=gateway__pb2.ElectrodeNumber.SerializeToString,
                 response_deserializer=gateway__pb2.ElectrodeState.FromString,
                 )
+        """ UnaryUnaryMultiCallable instance getElectrodeState in GatewayStub """
 
 
 class GatewayServicer(object):
-    """Interface exported by the server.
+    """ Interface exported by the server.
+        For each service, a Servicer class is generated, which serves as the 
+        superclass of a service implementation. For each method in the service, 
+        a corresponding function in the Servicer class is generated. We override 
+        these functions with the actual service implementation. 
     """
 
     def getElectrodeState(self, request, context):
@@ -44,6 +58,11 @@ class GatewayServicer(object):
 
 
 def add_GatewayServicer_to_server(servicer, server):
+    """ Registration function - generated function that registers a Servicer object
+    implementing it on a grpc.Server object, so that the server can route queries to
+    the respective servicer. 
+    
+    Takes in the servicer to register, and the server to be registered to. """
     rpc_method_handlers = {
             'getElectrodeState': grpc.unary_unary_rpc_method_handler(
                     servicer.getElectrodeState,
