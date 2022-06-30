@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rgateway.proto\x12\x07gateway\"!\n\x0f\x45lectrodeNumber\x12\x0e\n\x06number\x18\x01 \x01(\x05\"\x1f\n\x0e\x45lectrodeState\x12\r\n\x05state\x18\x01 \x01(\x05\"Z\n\tElectrode\x12%\n\x03num\x18\x01 \x01(\x0b\x32\x18.gateway.ElectrodeNumber\x12&\n\x05state\x18\x02 \x01(\x0b\x32\x17.gateway.ElectrodeState2S\n\x07Gateway\x12H\n\x11getElectrodeState\x12\x18.gateway.ElectrodeNumber\x1a\x17.gateway.ElectrodeState\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rgateway.proto\x12\x07gateway\"!\n\x0f\x45lectrodeNumber\x12\x0e\n\x06number\x18\x01 \x01(\x05\"\x1f\n\x0e\x45lectrodeState\x12\r\n\x05state\x18\x01 \x01(\x05\"Z\n\tElectrode\x12%\n\x03num\x18\x01 \x01(\x0b\x32\x18.gateway.ElectrodeNumber\x12&\n\x05state\x18\x02 \x01(\x0b\x32\x17.gateway.ElectrodeState2\x97\x01\n\x07Gateway\x12H\n\x11getElectrodeState\x12\x18.gateway.ElectrodeNumber\x1a\x17.gateway.ElectrodeState\"\x00\x12\x42\n\x11setElectrodeState\x12\x12.gateway.Electrode\x1a\x17.gateway.ElectrodeState\"\x00\x62\x06proto3')
 
 
 
@@ -52,6 +52,6 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _ELECTRODESTATE._serialized_end=92
   _ELECTRODE._serialized_start=94
   _ELECTRODE._serialized_end=184
-  _GATEWAY._serialized_start=186
-  _GATEWAY._serialized_end=269
+  _GATEWAY._serialized_start=187
+  _GATEWAY._serialized_end=338
 # @@protoc_insertion_point(module_scope)

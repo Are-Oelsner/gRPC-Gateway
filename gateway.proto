@@ -9,6 +9,10 @@ service Gateway {
     // RPC that returns state of requested electrode
     // Takes in electrode number, returns electrode state
     rpc getElectrodeState(ElectrodeNumber) returns (ElectrodeState) {}
+
+    // RPC that sets a specified electrode's state
+    // Takes in electrode number and state, returns set electrode state
+    rpc setElectrodeState(Electrode) returns (ElectrodeState) {}
 }
 
 // ElectrodeNumber serves as an ID for distinct electrodes in the device

@@ -6,20 +6,11 @@ import gateway_pb2 as gateway__pb2
 
 
 class GatewayStub(object):
-    """ Interface exported by the server.
-
-        Generated Stub class is used by the gRPC clients. 
+    """Interface exported by the server.
     """
 
     def __init__(self, channel):
-        """ Constructor.
-            Takes in channel object and initializes the stub. For each method in
-            the service, the initializer adds a corresponding attribute to the
-            stub object with the same name. 
-
-            Depending on the RPC type (unary or streaming), the value of that 
-            attribute will be callable objects of type UnaryUnaryMultiCallable, 
-            UnaryStreamMultiCallable, StreamUnaryMultiCallable, or StreamStreamMultiCallable
+        """Constructor.
 
         Args:
             channel: A grpc.Channel.
@@ -29,44 +20,44 @@ class GatewayStub(object):
                 request_serializer=gateway__pb2.ElectrodeNumber.SerializeToString,
                 response_deserializer=gateway__pb2.ElectrodeState.FromString,
                 )
-        """ UnaryUnaryMultiCallable instance getElectrodeState in GatewayStub """
+        self.setElectrodeState = channel.unary_unary(
+                '/gateway.Gateway/setElectrodeState',
+                request_serializer=gateway__pb2.Electrode.SerializeToString,
+                response_deserializer=gateway__pb2.ElectrodeState.FromString,
+                )
 
 
 class GatewayServicer(object):
-    """ Interface exported by the server.
-        For each service, a Servicer class is generated, which serves as the 
-        superclass of a service implementation. For each method in the service, 
-        a corresponding function in the Servicer class is generated. We override 
-        these functions with the actual service implementation. 
+    """Interface exported by the server.
     """
 
     def getElectrodeState(self, request, context):
         """RPC that returns state of requested electrode
         Takes in electrode number, returns electrode state
         """
-        electrodeState = get_electrode_state(self.db, request)
-        return electrodeState
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
-        # feature = get_feature(self.db, request)
-        # if feature is None: 
-        #     return route_guide_pb2.Feature(name="", location=request)
-        # else:
-        #     return feature
-        # context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        # context.set_details('Method not implemented!')
-        # raise NotImplementedError('Method not implemented!')
+    def setElectrodeState(self, request, context):
+        """RPC that sets a specified electrode's state
+        Takes in electrode number and state, returns set electrode state
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
 
 def add_GatewayServicer_to_server(servicer, server):
-    """ Registration function - generated function that registers a Servicer object
-    implementing it on a grpc.Server object, so that the server can route queries to
-    the respective servicer. 
-    
-    Takes in the servicer to register, and the server to be registered to. """
     rpc_method_handlers = {
             'getElectrodeState': grpc.unary_unary_rpc_method_handler(
                     servicer.getElectrodeState,
                     request_deserializer=gateway__pb2.ElectrodeNumber.FromString,
+                    response_serializer=gateway__pb2.ElectrodeState.SerializeToString,
+            ),
+            'setElectrodeState': grpc.unary_unary_rpc_method_handler(
+                    servicer.setElectrodeState,
+                    request_deserializer=gateway__pb2.Electrode.FromString,
                     response_serializer=gateway__pb2.ElectrodeState.SerializeToString,
             ),
     }
@@ -93,6 +84,23 @@ class Gateway(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/gateway.Gateway/getElectrodeState',
             gateway__pb2.ElectrodeNumber.SerializeToString,
+            gateway__pb2.ElectrodeState.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def setElectrodeState(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/gateway.Gateway/setElectrodeState',
+            gateway__pb2.Electrode.SerializeToString,
             gateway__pb2.ElectrodeState.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
