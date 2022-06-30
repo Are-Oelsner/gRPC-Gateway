@@ -19,9 +19,8 @@ def guide_get_electrode_state(stub, electrodeNum):
     ### Returns
     - Any : currently prints out the ElectrodeState returned from the stub and doesn't return anything
     """
-    electrodeState = stub.getElectrodeState(gateway_pb2.ElectrodeNumber(number=1))
-    # electrodeState = stub.getElectrodeState(gateway_pb2.ElectrodeNumber(number=electrodeNum.number))
-    # electrodeState = stub.getElectrodeState(electrodeNum)
+    electrodeState = stub.getElectrodeState(electrodeNum)
+    # electrodeState = stub.getElectrodeState(gateway_pb2.ElectrodeNumber(number=electrodeNum))
     print("Electrode %i state: %i" % (electrodeNum.number, electrodeState.state))
 
 def run():

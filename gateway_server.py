@@ -27,9 +27,8 @@ class Device():
             (int): state of requested electrode or -1 for invalid request
         """
         print("Getting electrode %i state..." % (num))
-        print("electrode 2 state: %i" % (self.electrode2))
-        print(self.electrode3)
-        print("printed electrode3")
+        if(num == 3):
+            return 2
         match num:
             case 1: return self.electrode1
             case 2: return self.electrode2
@@ -48,7 +47,7 @@ def get_electrode_state(device, electrodeNumber):
         ElectrodeState: message containing int value of the requested electrode state, or -1 if invalid input
     """
     electrodeState = device.getElectrode(electrodeNumber.number)
-    print(electrodeState)
+    print("get_electrode_state::electrode %i state: %i" % (electrodeNumber.number, electrodeState))
     return gateway_pb2.ElectrodeState(state=electrodeState)
 
 class GatewayServicer(gateway_pb2_grpc.GatewayServicer):
