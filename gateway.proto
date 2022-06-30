@@ -27,8 +27,8 @@ message ElectrodeState {
 
 // Electrode represents an electrode with ID num and state state. 
 message Electrode {
-    ElectrodeNumber num = 1;
-    ElectrodeState state = 2;
+    int32 number = 1;
+    int32 state = 2;
 }
 
 

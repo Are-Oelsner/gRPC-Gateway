@@ -23,6 +23,19 @@ def guide_get_electrode_state(stub, electrodeNum):
     # electrodeState = stub.getElectrodeState(gateway_pb2.ElectrodeNumber(number=electrodeNum))
     print("Electrode %i state: %i" % (electrodeNum.number, electrodeState.state))
 
+def guide_set_electrode_state(stub, electrode):
+    """ Client guide function that takes provided input (electrode) and makes a request from the stub
+    ### Parameters
+    1. stub : 
+    2. electrode : Electrode message containing int number and int state
+    
+    ### Returns
+    - Any : currently prints out the ElectrodeState returned from the stub and doesn't return anything
+    """
+    electrodeState = stub.setElectrodeState(electrode)
+    print("Electrode %i state set to %i" % (electrode.number, electrodeState.state))
+
+
 def run():
     with grpc.insecure_channel('localhost:50051') as channel:
         stub = gateway_pb2_grpc.GatewayStub(channel)
@@ -41,7 +54,9 @@ def run():
                     guide_get_electrode_state(stub, gateway_pb2.ElectrodeNumber(number=int(command[1])))
             elif(command[0] == "set"):
                 if(len(command) > 2):
-                    print("Setting electrode %i state to %i" % (command[1], command[2]))
+                    print("Setting electrode %s state to %s" % (command[1], command[2]))
+                    guide_set_electrode_state(stub, gateway_pb2.Electrode(number=int(command[1]),  state=int(command[2])))
+                    # guide_set_electrode_state(stub, gateway_pb2.Electrode(num=gateway_pb2.ElectrodeNumber(number=int(command[1])),  state=gateway_pb2.ElectrodeState(state=int(command[2]))))
             else:
                 print("invalid input: %s \n Please try again, or enter help for details" % (user_input))
 

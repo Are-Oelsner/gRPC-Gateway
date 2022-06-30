@@ -27,20 +27,43 @@ class Device():
             (int): state of requested electrode or -1 for invalid request
         """
         print("Getting electrode %i state..." % (num))
-        if(num == 3):
-            return 2
         match num:
             case 1: return self.electrode1
             case 2: return self.electrode2
             case 3: return self.electrode3
             case 4: return self.electrode4
             case _: return -1
+    
+    def setElectrode(self, electrode):
+        """ Sets specified electrode's state to the provided state 
+        Args:
+            electrode(Electrode): Electrode message that contains an int state and int number
+    
+        Returns:
+            ElectrodeState: message containing int value of the requested electrode state, or -1 if invalid input
+        """
+        match electrode.number:
+            case 1: 
+                self.electrode1 = electrode.state 
+                return self.electrode1
+            case 2: 
+                self.electrode2 = electrode.state 
+                return self.electrode2
+            case 3: 
+                self.electrode3 = electrode.state 
+                return self.electrode3
+            case 4: 
+                self.electrode4 = electrode.state 
+                return self.electrode4
+            case _: return -1
+        
+
 
 def get_electrode_state(device, electrodeNumber):
     """ Returns state of given electron or -1.  
 
     Args:
-        electrode_db: function that takes in a number (1-4)
+        device(Device): instance of the device class
         electrodeNumber : ElectrodeNumber message that contains an int number 
 
     Returns:
@@ -49,6 +72,20 @@ def get_electrode_state(device, electrodeNumber):
     electrodeState = device.getElectrode(electrodeNumber.number)
     print("get_electrode_state::electrode %i state: %i" % (electrodeNumber.number, electrodeState))
     return gateway_pb2.ElectrodeState(state=electrodeState)
+
+def set_electrode_state(device, electrode):
+    """ Sets specified electrode's state to the provided state 
+    Args:
+        device(Device): instance of the device class
+        electrode(Electrode): Electrode message that contains an int state and int number
+    
+    Returns:
+        ElectrodeState: message containing int value of the requested electrode state, or -1 if invalid input
+    """
+    electrodeState = device.setElectrode(electrode)
+    return gateway_pb2.ElectrodeState(state=electrodeState)
+
+
 
 class GatewayServicer(gateway_pb2_grpc.GatewayServicer):
     """ GatewayServiceer used by the server to implement a gRPC service. 
@@ -63,6 +100,10 @@ class GatewayServicer(gateway_pb2_grpc.GatewayServicer):
 
     def getElectrodeState(self, request, context):
         state = get_electrode_state(self.device, request)
+        return state
+
+    def setElectrodeState(self, request, context):
+        state = set_electrode_state(self.device, request)
         return state
 
 def serve():
