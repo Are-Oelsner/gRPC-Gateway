@@ -13,10 +13,7 @@ class Device():
 
     def __init__(self):
         """ Constructor - Initializes electrodes """
-        self.electrode1 = 0
-        self.electrode2 = 1
-        self.electrode3 = 2
-        self.electrode4 = 3
+        self.electrodes = [0, 0, 0, 0]
 
     def getElectrode(self, num):
         """ Returns the state of the requested electrode 
@@ -26,13 +23,9 @@ class Device():
         Returns:
             (int): state of requested electrode or -1 for invalid request
         """
-        print("Getting electrode %i state..." % (num))
-        match num:
-            case 1: return self.electrode1
-            case 2: return self.electrode2
-            case 3: return self.electrode3
-            case 4: return self.electrode4
-            case _: return -1
+        if(num < len(self.electrodes)):
+            return self.electrodes[num]
+        return -1
     
     def setElectrode(self, electrode):
         """ Sets specified electrode's state to the provided state 
@@ -42,21 +35,10 @@ class Device():
         Returns:
             ElectrodeState: message containing int value of the requested electrode state, or -1 if invalid input
         """
-        match electrode.number:
-            case 1: 
-                self.electrode1 = electrode.state 
-                return self.electrode1
-            case 2: 
-                self.electrode2 = electrode.state 
-                return self.electrode2
-            case 3: 
-                self.electrode3 = electrode.state 
-                return self.electrode3
-            case 4: 
-                self.electrode4 = electrode.state 
-                return self.electrode4
-            case _: return -1
-        
+        if(electrode.number < len(self.electrodes)):
+            self.electrodes[electrode.number] = electrode.state
+            return self.electrodes[electrode.number]
+        return -1
 
 
 def get_electrode_state(device, electrodeNumber):
@@ -69,9 +51,7 @@ def get_electrode_state(device, electrodeNumber):
     Returns:
         ElectrodeState: message containing int value of the requested electrode state, or -1 if invalid input
     """
-    electrodeState = device.getElectrode(electrodeNumber.number)
-    print("get_electrode_state::electrode %i state: %i" % (electrodeNumber.number, electrodeState))
-    return gateway_pb2.ElectrodeState(state=electrodeState)
+    return gateway_pb2.ElectrodeState(state=device.getElectrode(electrodeNumber.number))
 
 def set_electrode_state(device, electrode):
     """ Sets specified electrode's state to the provided state 
@@ -82,8 +62,8 @@ def set_electrode_state(device, electrode):
     Returns:
         ElectrodeState: message containing int value of the requested electrode state, or -1 if invalid input
     """
-    electrodeState = device.setElectrode(electrode)
-    return gateway_pb2.ElectrodeState(state=electrodeState)
+    return gateway_pb2.ElectrodeState(state=device.setElectrode(electrode))
+
 
 
 
@@ -99,12 +79,12 @@ class GatewayServicer(gateway_pb2_grpc.GatewayServicer):
         
 
     def getElectrodeState(self, request, context):
-        state = get_electrode_state(self.device, request)
-        return state
+        """ Implements Servicer getElectrodeState function """
+        return get_electrode_state(self.device, request)
 
     def setElectrodeState(self, request, context):
-        state = set_electrode_state(self.device, request)
-        return state
+        """ Implements Servicer setElectrodeState function """
+        return set_electrode_state(self.device, request)
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
