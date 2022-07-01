@@ -20,9 +20,14 @@ set:
 
 ## Example: 
 ### In one terminal
-PS C:\PATH\gRPC_Gateway> python .\gateway_server.py
 
-#### In another terminal
+```
+PS C:\PATH\gRPC_Gateway> python .\gateway_server.py
+```
+
+### In another terminal
+
+```
 PS C:\PATH\gRPC_Gateway> python .\gateway_client.py
 please enter command: get 1
         getting electrode 1 state...
@@ -33,4 +38,5 @@ please enter command: set 1 100
 please enter command: get 1
         getting electrode 1 state...
         electrode 1 state: 100
+```
 
