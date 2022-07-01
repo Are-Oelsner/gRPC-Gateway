@@ -4,10 +4,10 @@ Author: Are Oelsner
 The App and the device communicate through gRPC for getting and setting individual electrode states. 
 
 ## Running the server: 
-    python ./gateway_server.py
+    python ./python/gateway_server.py
 
 ## Running the client: 
-    python ./gateway_client.py
+    python ./python/gateway_client.py
     < see Client command formats below>
 
 
@@ -22,13 +22,13 @@ set:
 ### In one terminal
 
 ```
-PS C:\PATH\gRPC_Gateway> python .\gateway_server.py
+PS C:\PATH\gRPC_Gateway> python .\python\gateway_server.py
 ```
 
 ### In another terminal
 
 ```
-PS C:\PATH\gRPC_Gateway> python .\gateway_client.py
+PS C:\PATH\gRPC_Gateway> python .\python\gateway_client.py
 please enter command: get 1
         getting electrode 1 state...
         electrode 1 state: 0
@@ -38,5 +38,13 @@ please enter command: set 1 100
 please enter command: get 1
         getting electrode 1 state...
         electrode 1 state: 100
+```
+
+
+## Compiling Proto to python
+from gRPC_Gateway directory
+```
+# <python protoc compiler> -I<path to protos folder> --python_out=<path to new pb2 file> --grpc_python_out=<path to new pb2_grpc file> <path to proto file>
+$ python -m grpc_tools.protoc -I./protos --python_out=./python --grpc_python_out=./python ./protos/gateway.proto   
 ```
 
