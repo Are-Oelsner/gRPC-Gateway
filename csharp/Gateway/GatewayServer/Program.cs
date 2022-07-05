@@ -10,6 +10,7 @@ using Gateway;
 
 namespace GatewayServer
 {
+
     // <summary>Device simulating neural implant with four electrodes </summary>
     // Stores states for four electrodes
     class Device
@@ -58,23 +59,24 @@ namespace GatewayServer
 
     }
 
-    class Program
+    public class Program
     {
         const int Port = 30051; // TODO should this be 50051?
 
         public static void Main(string[] args)
         {
-            //GatewayServer server = new GatewayServer();
-            //ServerServiceDefinition serverServiceDefinition = Gateway.Gateway.BindService(server);
-            //ServerPort Ports = new ServerPort("localhost", Port, ServerCredentials.Insecure);
-            
-            //server.Start(); // TODO Start not declared in GatewayBase superclass
+            Server server = new Server
+            {
+                Services = { Gateway.Gateway.BindService(new GatewayServer()) },
+                Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
+            };
+            server.Start();
 
             Console.WriteLine("Greeter server listening on port " + Port);
             Console.WriteLine("Press any key to stop the server...");
             Console.ReadKey();
 
-            //server.ShutdownAsync().Wait(); // TODO not declared in GatewayBase superclass
+            server.ShutdownAsync().Wait();
 
         }
     }
