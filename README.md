@@ -23,7 +23,7 @@ $ python -m grpc_tools.protoc -I./protos --python_out=./python --grpc_python_out
 
 ## Running the client: 
     python ./python/gateway_client.py
-    < see Client command formats below>
+    < see Client command formats above>
 
 ## Example: 
 ### In one terminal
@@ -59,4 +59,5 @@ please enter command: get 1
 
 ## Running the client
     dotnet run --project .\csharp\Gateway\GatewayClient\GatewayClient.csproj
+    <see client command formats above>
 

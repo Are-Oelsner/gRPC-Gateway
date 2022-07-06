@@ -84,7 +84,7 @@ namespace GatewayServer
 
     public class Program
     {
-        const int Port = 30051; // TODO should this be 50051?
+        const int Port = 50051;
         /// <summary>
         /// Main method for Server, sets up and starts server
         /// </summary>

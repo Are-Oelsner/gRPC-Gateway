@@ -53,7 +53,8 @@ namespace GatewayClient
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
-            Channel channel = new Channel("127.0.0.1:30051", ChannelCredentials.Insecure); // TODO change port to 50051 to match python implementation?
+            string Port = "127.0.0.1:50051";
+            Channel channel = new Channel(Port, ChannelCredentials.Insecure);
             var client = new Gateway.Gateway.GatewayClient(channel);
 
             var user_input = "";
@@ -63,16 +64,17 @@ namespace GatewayClient
                 Console.Write("please enter command: ");
                 user_input = Console.ReadLine();
                 command = user_input.Split(" ");
-                if (command[0] == "help")
-                {
-                    Console.WriteLine("please refer to README for use guide");
-                }
-                else if (command[0] == "get") {
+                if (command[0] == "get") {
                     guide_get_electrode_state(client, new Gateway.ElectrodeNumber { Number = Int32.Parse(command[1]) });
                 }
                 else if (command[0] == "set")
                 {
                     guide_set_electrode_state(client, new Gateway.Electrode { Number = Int32.Parse(command[1]), State = Int32.Parse(command[2]) });
+                }
+                else if (command[0] == "help")
+                {
+                    Console.WriteLine("get <(int) electrode number(0-3)>");
+                    Console.WriteLine("set <(int) electrode number(0-3)> <(int) value(>=0)>");
                 }
                 else
                 {
