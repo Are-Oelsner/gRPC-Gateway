@@ -10,8 +10,14 @@ namespace GatewayServer
     /// </summary>
     class GatewayServer : Gateway.Gateway.GatewayBase
     {
+        /// <summary>
+        /// Device instance that stores electrodes
+        /// </summary>
         Device device;
 
+        /// <summary>
+        /// Constructor initializes device
+        /// </summary>
         public GatewayServer()
         {
             device = new Device();
