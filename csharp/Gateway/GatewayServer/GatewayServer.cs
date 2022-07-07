@@ -10,6 +10,12 @@ namespace GatewayServer
     /// </summary>
     class GatewayServer : Gateway.Gateway.GatewayBase
     {
+        Device device;
+
+        public GatewayServer()
+        {
+            device = new Device();
+        }
         /// <summary>
         /// Server side handler of the getElectrodeState RPC
         /// </summary>
@@ -18,7 +24,7 @@ namespace GatewayServer
         /// <returns>(ElectrodeState) state of requested electrode</returns>
         public override Task<ElectrodeState> getElectrodeState(ElectrodeNumber request, ServerCallContext context)
         {
-            return Task.FromResult(Device.get_electrode_state(request));
+            return Task.FromResult(device.get_electrode_state(request));
         }
         /// <summary>
         /// Server side handler for the setElectrodeState RPC
@@ -28,7 +34,7 @@ namespace GatewayServer
         /// <returns>(ElectrodeState) state of electrode after it is set</returns>
         public override Task<ElectrodeState> setElectrodeState(Electrode request, ServerCallContext context)
         {
-            return Task.FromResult(Device.set_electrode_state(request));
+            return Task.FromResult(device.set_electrode_state(request));
         }
 
     }
