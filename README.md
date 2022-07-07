@@ -61,3 +61,11 @@ please enter command: get 1
     dotnet run --project .\csharp\Gateway\GatewayClient\GatewayClient.csproj
     <see client command formats above>
 
+# Doxygen
+## Building Documentation
+```
+$ doxygen doxygen-config-file
+```
+
+Load constructed documentation/API by accessing ./documentation/html/index.html in your browser
+
