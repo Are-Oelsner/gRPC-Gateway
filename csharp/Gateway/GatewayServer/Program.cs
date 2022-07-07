@@ -1,4 +1,4 @@
-// Author: Are Oelsner
+﻿// Author: Are Oelsner
 /* 
  * C# implementation of gRPC Gateway Server 
  */

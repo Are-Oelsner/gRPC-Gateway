@@ -5,12 +5,11 @@
 
 using System;
 using Grpc.Core;
-using Gateway;
 
 namespace GatewayClient
 {
     class Program
-    { 
+    {
         /// <summary>
         /// Client guide function that takes provided input and makes a request from the server
         /// </summary>
@@ -59,12 +58,13 @@ namespace GatewayClient
 
             var user_input = "";
             string[] command;
-            while(user_input != "quit")
+            while (user_input != "quit")
             {
                 Console.Write("please enter command: ");
                 user_input = Console.ReadLine();
-                command = user_input.Split(" ");
-                if (command[0] == "get") {
+                command = user_input.Split(' ');
+                if (command[0] == "get")
+                {
                     guide_get_electrode_state(client, new Gateway.ElectrodeNumber { Number = Int32.Parse(command[1]) });
                 }
                 else if (command[0] == "set")
@@ -89,3 +89,4 @@ namespace GatewayClient
         }
     }
 }
+
