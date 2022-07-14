@@ -3,6 +3,8 @@ Author: Are Oelsner
 # Gateway gRPC code simulating communication between an app and a simple neural implant with four electrodes. 
 The App and the device communicate through gRPC for getting and setting individual electrode states. 
 
+# Link - [Creating a gRPC Project in Python Notion Guide](https://www.notion.so/bortonlab/Creating-a-gRPC-Project-in-Python-607ce64aa0944f92bd2b7fc5b206563f)
+
 ## Client command formats:
 get:
     get <(int) electrode number (0-3)>
